@@ -1,0 +1,111 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Source+Sans+3:wght@400&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=JetBrains+Mono:wght@400&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Core Colors */
+    --color-background: #0b1020; /* deep navy */
+    --color-foreground: #E6EEF3; /* high-contrast white-blue */
+    --color-border: rgba(255,255,255,0.08); /* subtle glass border */
+    --color-input: rgba(255,255,255,0.04); /* glass input background */
+    --color-ring: #00E5FF; /* neon cyan */
+    
+    /* Card Colors */
+    --color-card: rgba(255,255,255,0.04); /* glass surface */
+    --color-card-foreground: #E6EEF3; /* high-contrast white-blue */
+    
+    /* Popover Colors */
+    --color-popover: rgba(255,255,255,0.08); /* enhanced glass */
+    --color-popover-foreground: #E6EEF3; /* high-contrast white-blue */
+    
+    /* Muted Colors */
+    --color-muted: rgba(255,255,255,0.04); /* glass surface */
+    --color-muted-foreground: #AFC3CC; /* muted blue-gray */
+    
+    /* Primary Colors */
+    --color-primary: #00E5FF; /* neon cyan */
+    --color-primary-foreground: #0b1020; /* deep navy */
+    
+    /* Secondary Colors */
+    --color-secondary: #A020F0; /* vibrant purple */
+    --color-secondary-foreground: #E6EEF3; /* high-contrast white-blue */
+    
+    /* Destructive Colors */
+    --color-destructive: #EF4444; /* clear red */
+    --color-destructive-foreground: #E6EEF3; /* high-contrast white-blue */
+    
+    /* Accent Colors */
+    --color-accent: #22C55E; /* success green */
+    --color-accent-foreground: #0b1020; /* deep navy */
+    
+    /* Success Colors */
+    --color-success: #22C55E; /* success green */
+    --color-success-foreground: #0b1020; /* deep navy */
+    
+    /* Warning Colors */
+    --color-warning: #F59E0B; /* warm amber */
+    --color-warning-foreground: #0b1020; /* deep navy */
+    
+    /* Error Colors */
+    --color-error: #EF4444; /* clear red */
+    --color-error-foreground: #E6EEF3; /* high-contrast white-blue */
+  }
+
+  * {
+    @apply border-border;
+  }
+  
+  body {
+    @apply bg-background text-foreground;
+    font-feature-settings: "rlig" 1, "calt" 1;
+  }
+}
+
+@layer utilities {
+  .glass-effect {
+    @apply backdrop-blur-md bg-white/[0.04];
+  }
+  
+  .glass-effect-hover {
+    @apply backdrop-blur-lg bg-white/[0.08];
+  }
+  
+  .glow-primary {
+    box-shadow: 0 0 20px rgba(0, 229, 255, 0.1);
+  }
+  
+  .glow-secondary {
+    box-shadow: 0 0 20px rgba(160, 32, 240, 0.1);
+  }
+  
+  .shadow-elevated {
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.3);
+  }
+  
+  .shadow-floating {
+    box-shadow: 0 8px 32px rgba(0, 229, 255, 0.15);
+  }
+  
+  .transition-smooth {
+    transition: all 280ms cubic-bezier(0.2, 0.9, 0.3, 1);
+  }
+  
+  .pulse-gentle {
+    animation: pulse-gentle 2s infinite;
+  }
+  
+  @keyframes pulse-gentle {
+    0%, 100% {
+      opacity: 1;
+    }
+    50% {
+      opacity: 0.7;
+    }
+  }
+}
