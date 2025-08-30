@@ -1,6 +1,6 @@
-import bcrypt from 'bcryptjs';
-import jwt from 'jsonwebtoken';
-import { executeQuery } from '../../config/database';
+const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
+const { executeQuery } = require('../../config/database');
 
 // Generate JWT tokens
 const generateTokens = (userId) => {
@@ -13,7 +13,7 @@ const generateTokens = (userId) => {
   return { accessToken };
 };
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({
       success: false,
@@ -84,4 +84,4 @@ export default async function handler(req, res) {
       message: 'Server error during login'
     });
   }
-}
+};

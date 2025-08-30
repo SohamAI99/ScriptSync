@@ -1,6 +1,6 @@
-import { executeQuery } from '../config/database';
+const { executeQuery } = require('../config/database');
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   try {
     // Test database connection with a simple query
     const result = await executeQuery('SELECT 1 as connection_test');
@@ -20,4 +20,4 @@ export default async function handler(req, res) {
       timestamp: new Date().toISOString()
     });
   }
-}
+};

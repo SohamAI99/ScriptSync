@@ -20,6 +20,10 @@
     {
       "src": "api/health.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "api/test-db.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
@@ -38,6 +42,10 @@
     {
       "src": "/api/users/profile",
       "dest": "/api/users/profile.js"
+    },
+    {
+      "src": "/api/test-db",
+      "dest": "/api/test-db.js"
     },
     {
       "src": "/(.*)",

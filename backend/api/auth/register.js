@@ -1,7 +1,7 @@
-import bcrypt from 'bcryptjs';
-import { executeQuery } from '../../config/database';
+const bcrypt = require('bcryptjs');
+const { executeQuery } = require('../../config/database');
 
-export default async function handler(req, res) {
+module.exports = async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({
       success: false,
@@ -74,4 +74,4 @@ export default async function handler(req, res) {
       message: 'Server error during registration'
     });
   }
-}
+};
