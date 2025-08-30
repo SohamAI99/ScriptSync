@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ScriptSync Backend API</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            max-width: 800px;
+            margin: 0 auto;
+            padding: 2rem;
+            background-color: #f5f5f5;
+        }
+        .container {
+            background-color: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        h1 {
+            color: #333;
+        }
+        code {
+            background-color: #f0f0f0;
+            padding: 0.2rem 0.4rem;
+            border-radius: 4px;
+            font-family: monospace;
+        }
+        .endpoint {
+            background-color: #f8f9fa;
+            border-left: 4px solid #007bff;
+            padding: 1rem;
+            margin: 1rem 0;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>ScriptSync Backend API</h1>
+        <p>This is the backend API for ScriptSync, a collaborative scriptwriting platform.</p>
+        
+        <h2>Available Endpoints</h2>
+        
+        <div class="endpoint">
+            <h3>Health Check</h3>
+            <p><code>GET /api/health</code></p>
+            <p>Check if the API is running</p>
+        </div>
+        
+        <div class="endpoint">
+            <h3>Authentication</h3>
+            <p><code>POST /api/auth/register</code> - Register a new user</p>
+            <p><code>POST /api/auth/login</code> - Login existing user</p>
+        </div>
+        
+        <div class="endpoint">
+            <h3>User Management</h3>
+            <p><code>GET /api/users/profile</code> - Get user profile</p>
+            <p><code>PUT /api/users/profile</code> - Update user profile</p>
+        </div>
+        
+        <h2>Deployment Information</h2>
+        <p>This backend is designed to be deployed as serverless functions on Vercel.</p>
+        <p>For detailed deployment instructions, see the DEPLOYMENT.md file in the repository.</p>
+    </div>
+</body>
+</html>

@@ -570,23 +570,4 @@ const ProfileSettingsPage = () => {
   );
 };
 
-export default ProfileSettingsPage;                  />
-
-                  <Toggle
-                    label="Weekly Digest"
-                    description="Get a weekly summary of your activity"
-                    enabled={preferences?.weeklyDigest}
-                    onChange={(value) => setPreferences({...preferences, weeklyDigest: value})}
-                  />
-                </div>
-              </SettingsSection>
-            )}
-          </div>
-        </div>
-      </div>
-      </div> {/* Close the pt-16 div */}
-    </div>
-  );
-};
-
 export default ProfileSettingsPage;
