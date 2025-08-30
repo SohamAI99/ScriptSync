@@ -2,7 +2,23 @@
   "version": 2,
   "builds": [
     {
-      "src": "api/**/*.js",
+      "src": "api/index.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/auth/register.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/auth/login.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/users/profile.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/health.js",
       "use": "@vercel/node"
     }
   ],
@@ -24,8 +40,8 @@
       "dest": "/api/users/profile.js"
     },
     {
-      "src": "/api/(.*)",
-      "dest": "/api/$1"
+      "src": "/(.*)",
+      "dest": "/api/index.js"
     }
   ]
 }
