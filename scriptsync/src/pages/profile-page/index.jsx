@@ -6,6 +6,7 @@ import Button from '../../components/ui/Button';
 import Input from '../../components/ui/Input';
 import MainNavigation from '../../components/ui/MainNavigation';
 import { authService } from '../../services/auth';
+import api from '../../services/api';
 
 // Profile Avatar Component
 const ProfileAvatar = ({ avatarUrl, onAvatarChange }) => {
@@ -15,10 +16,29 @@ const ProfileAvatar = ({ avatarUrl, onAvatarChange }) => {
     const file = e?.target?.files?.[0];
     if (file) {
       setIsUploading(true);
-      // Simulate upload
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      setIsUploading(false);
-      onAvatarChange?.(URL.createObjectURL(file));
+      try {
+        // Create FormData for file upload
+        const formData = new FormData();
+        formData.append('avatar', file);
+
+        // Upload to server
+        const response = await api.post('/users/avatar', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+
+        if (response.data.success) {
+          onAvatarChange?.(response.data.data.avatar_url);
+        } else {
+          throw new Error(response.data.message || 'Upload failed');
+        }
+      } catch (error) {
+        console.error('Avatar upload error:', error);
+        alert('Failed to upload avatar');
+      } finally {
+        setIsUploading(false);
+      }
     }
   };
 
@@ -104,12 +124,15 @@ const ProfilePage = () => {
         setIsAuthenticated(true);
         
         // Update profile data with real user data
-        setProfileData(prev => ({
-          ...prev,
+        setProfileData({
           name: userData.name || '',
           email: userData.email || '',
-          username: userData.email?.split('@')[0] || ''
-        }));
+          username: userData.email?.split('@')[0] || '',
+          bio: userData.bio || '',
+          phone: userData.phone || '',
+          dateOfBirth: userData.dateOfBirth || '',
+          avatarUrl: userData.avatarUrl || ''
+        });
       } catch (error) {
         console.error('Error parsing user data:', error);
         navigate('/');
@@ -123,8 +146,16 @@ const ProfilePage = () => {
     setIsLoading(true);
     
     try {
+      // Prepare profile updates (excluding avatarUrl as it's handled separately)
+      const profileUpdates = {
+        name: profileData.name,
+        bio: profileData.bio,
+        phone: profileData.phone,
+        dateOfBirth: profileData.dateOfBirth
+      };
+      
       // Use auth service to update profile with proper data persistence
-      const response = await authService.updateUserProfile(profileData);
+      const response = await authService.updateUserProfile(profileUpdates);
       
       if (response.success) {
         // Update local state with the response data
@@ -249,6 +280,7 @@ const ProfilePage = () => {
               value={profileData?.email}
               onChange={(e) => setProfileData({...profileData, email: e?.target?.value})}
               required
+              disabled
             />
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-4">

@@ -9,6 +9,7 @@ import MainNavigation from '../../components/ui/MainNavigation';
 import { cn } from '../../utils/cn';
 import Icon from '../../components/AppIcon';
 import { authService } from '../../services/auth';
+import api from '../../services/api';
 
 
 // Profile Avatar Component
@@ -19,10 +20,29 @@ const ProfileAvatar = ({ avatarUrl, onAvatarChange }) => {
     const file = e?.target?.files?.[0];
     if (file) {
       setIsUploading(true);
-      // Simulate upload
-      await new Promise(resolve => setTimeout(resolve, 1500));
-      setIsUploading(false);
-      onAvatarChange?.(URL.createObjectURL(file));
+      try {
+        // Create FormData for file upload
+        const formData = new FormData();
+        formData.append('avatar', file);
+
+        // Upload to server
+        const response = await api.post('/users/avatar', formData, {
+          headers: {
+            'Content-Type': 'multipart/form-data'
+          }
+        });
+
+        if (response.data.success) {
+          onAvatarChange?.(response.data.data.avatar_url);
+        } else {
+          throw new Error(response.data.message || 'Upload failed');
+        }
+      } catch (error) {
+        console.error('Avatar upload error:', error);
+        alert('Failed to upload avatar');
+      } finally {
+        setIsUploading(false);
+      }
     }
   };
 
@@ -233,13 +253,12 @@ const ProfileSettingsPage = () => {
   const handleProfileUpdate = async () => {
     setIsLoading(true);
     try {
-      // Prepare profile updates
+      // Prepare profile updates (excluding avatarUrl as it's handled separately)
       const profileUpdates = {
         name: profileData.name,
         bio: profileData.bio,
         phone: profileData.phone,
-        dateOfBirth: profileData.dateOfBirth,
-        avatarUrl: profileData.avatarUrl
+        dateOfBirth: profileData.dateOfBirth
       };
       
       // Use auth service to update profile with proper data persistence
@@ -404,6 +423,7 @@ const ProfileSettingsPage = () => {
                   value={profileData?.email}
                   onChange={(e) => setProfileData({...profileData, email: e?.target?.value})}
                   required
+                  disabled
                 />
 
                 <div className="grid grid-cols-2 gap-4">
@@ -532,6 +552,25 @@ const ProfileSettingsPage = () => {
                     enabled={preferences?.collaborationAlerts}
                     onChange={(value) => setPreferences({...preferences, collaborationAlerts: value})}
                   />
+
+                  <Toggle
+                    label="Weekly Digest"
+                    description="Get a weekly summary of your activity"
+                    enabled={preferences?.weeklyDigest}
+                    onChange={(value) => setPreferences({...preferences, weeklyDigest: value})}
+                  />
+                </div>
+              </SettingsSection>
+            )}
+          </div>
+        </div>
+      </div>
+      </div> {/* Close the pt-16 div */}
+    </div>
+  );
+};
+
+export default ProfileSettingsPage;                  />
 
                   <Toggle
                     label="Weekly Digest"
