@@ -88,3 +88,4 @@ PHP_SETUP_GUIDE.md
 # Misc
 *.tgz
 *.tar.gz
+.vercel
