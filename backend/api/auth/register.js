@@ -1,4 +1,5 @@
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 const { executeQuery } = require('../../config/database');
 
 module.exports = async function handler(req, res) {
@@ -52,6 +53,19 @@ module.exports = async function handler(req, res) {
 
     const userId = result.insertId;
 
+    // Generate JWT tokens
+    const accessToken = jwt.sign(
+      { userId },
+      process.env.JWT_SECRET,
+      { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
+    );
+    
+    const refreshToken = jwt.sign(
+      { userId },
+      process.env.JWT_REFRESH_SECRET,
+      { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '30d' }
+    );
+
     // Get the created user (without password)
     const users = await executeQuery(
       'SELECT id, name, email, role, created_at FROM users WHERE id = ?',
@@ -64,7 +78,9 @@ module.exports = async function handler(req, res) {
       success: true,
       message: 'User registered successfully',
       data: {
-        user
+        user,
+        accessToken,
+        refreshToken
       }
     });
   } catch (error) {

@@ -6,11 +6,17 @@ const { executeQuery } = require('../../config/database');
 const generateTokens = (userId) => {
   const accessToken = jwt.sign(
     { userId },
-    process.env.JWT_SECRET || 'your-super-secret-jwt-key-here-change-in-production',
+    process.env.JWT_SECRET,
     { expiresIn: process.env.JWT_EXPIRES_IN || '7d' }
   );
   
-  return { accessToken };
+  const refreshToken = jwt.sign(
+    { userId },
+    process.env.JWT_REFRESH_SECRET,
+    { expiresIn: process.env.JWT_REFRESH_EXPIRES_IN || '30d' }
+  );
+  
+  return { accessToken, refreshToken };
 };
 
 module.exports = async function handler(req, res) {
@@ -67,14 +73,15 @@ module.exports = async function handler(req, res) {
     const { password: _, ...userWithoutPassword } = user;
     
     // Generate tokens
-    const { accessToken } = generateTokens(user.id);
+    const { accessToken, refreshToken } = generateTokens(user.id);
 
     res.json({
       success: true,
       message: 'Login successful',
       data: {
         user: userWithoutPassword,
-        accessToken
+        accessToken,
+        refreshToken
       }
     });
   } catch (error) {
