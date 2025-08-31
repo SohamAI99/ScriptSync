@@ -24,6 +24,14 @@
     {
       "src": "api/test-db.js",
       "use": "@vercel/node"
+    },
+    {
+      "src": "api/scripts.js",
+      "use": "@vercel/node"
+    },
+    {
+      "src": "api/collaboration.js",
+      "use": "@vercel/node"
     }
   ],
   "routes": [
@@ -46,6 +54,30 @@
     {
       "src": "/api/test-db",
       "dest": "/api/test-db.js"
+    },
+    {
+      "src": "/api/scripts",
+      "dest": "/api/scripts.js"
+    },
+    {
+      "src": "/api/scripts/.*",
+      "dest": "/api/scripts.js"
+    },
+    {
+      "src": "/api/collaboration",
+      "dest": "/api/collaboration.js"
+    },
+    {
+      "src": "/api/collaboration/.*",
+      "dest": "/api/collaboration.js"
+    },
+    {
+      "src": "/api/auth/.*",
+      "dest": "/api/index.js"
+    },
+    {
+      "src": "/api/users/.*",
+      "dest": "/api/index.js"
     },
     {
       "src": "/(.*)",
